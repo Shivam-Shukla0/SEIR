@@ -124,7 +124,6 @@ def scrape_page(url):
     return wordCount, simHashValue
 
 
-# main
 if len(sys.argv) < 3:
     print("Enter at least 2 URLs to compare")
 else:
