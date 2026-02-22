@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 
-# simple hash banana
-def makeHash(word):
+# simple hash function
+def make_hash(word):
     p = 53
     mod = 2 ** 64
     ans = 0
@@ -21,7 +21,7 @@ def makeHash(word):
 
 
 # creating simhash function
-def makeSimHash(wordCount):
+def make_sim_hash(wordCount):
     bits = []
 
     for i in range(64):
@@ -29,7 +29,7 @@ def makeSimHash(wordCount):
 
     for word in wordCount:
         count = wordCount[word]
-        h = makeHash(word)
+        h = make_hash(word)
 
         for i in range(64):
             bit = (h >> i) & 1
@@ -38,19 +38,19 @@ def makeSimHash(wordCount):
             else:
                 bits[i] = bits[i] - count
 
-    finalHash = 0
+    final_hash = 0
     for i in range(64):
         if bits[i] > 0:
             value = 1
             for j in range(i):
                 value = value * 2
-            finalHash = finalHash + value
+            final_hash = final_hash + value
 
-    return finalHash
+    return final_hash
 
 
 # common bits count
-def countCommonBits(h1, h2):
+def counting_common_bits(h1, h2):
     xorValue = h1 ^ h2
     binary = bin(xorValue)
     ones = binary.count("1")
@@ -58,7 +58,7 @@ def countCommonBits(h1, h2):
 
 
 # website scrape karna
-def scrapePage(url):
+def scrape_page(url):
 
     if url.startswith("http") == False:
         url = "https://" + url
@@ -116,17 +116,9 @@ def scrapePage(url):
     for w in sorted(wordCount, key=wordCount.get, reverse=True):
         print(w + ":", wordCount[w])
 
-    # sample hash
-    print("\n--- Word Hash Sample ---")
-    count = 0
-    for w in wordCount:
-        print(w + ":", makeHash(w))
-        count = count + 1
-        if count == 5:
-            break
 
     # printing simhash value
-    simHashValue = makeSimHash(wordCount)
+    simHashValue = make_sim_hash(wordCount)
     print("\nSimhash:", simHashValue)
 
     return wordCount, simHashValue
@@ -136,8 +128,8 @@ def scrapePage(url):
 if len(sys.argv) < 3:
     print("Enter at least 2 URLs to compare")
 else:
-    freq1, hash1 = scrapePage(sys.argv[1])
-    freq2, hash2 = scrapePage(sys.argv[2])
+    freq1, hash1 = scrape_page(sys.argv[1])
+    freq2, hash2 = scrape_page(sys.argv[2])
 
-    common = countCommonBits(hash1, hash2)
+    common = counting_common_bits(hash1, hash2)
     print("\nCommon bits between pages:", common, "/64")
