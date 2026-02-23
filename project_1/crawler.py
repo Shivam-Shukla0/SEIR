@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 
-def scrape_page(url):
+def scrape_web_page(url):
 
     if url.startswith("http") == False:
         url = "https://" + url
