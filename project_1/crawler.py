@@ -79,7 +79,6 @@ def make_hash(word):
 
 def make_sim_hash(dictionary_of_words):
     bits = []
-
     for i in range(64):
         bits.append(0)
 
